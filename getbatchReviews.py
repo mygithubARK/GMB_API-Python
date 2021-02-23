@@ -24,7 +24,7 @@ def main (argv):
 
     ## STEP 2 - Get the list of all available locations for the specified account (gmbAccount)
     # Limitation - 100 locations fetched per API Call
-    # we use 'pageToken' - to fetch all the remaining locations
+    # we use 'pageToken' - to fetch all the available locations
 
     try:
         page_token = None
@@ -62,7 +62,7 @@ def main (argv):
     
     ## STEP 3: Getting the review data for each locationId
 
-    #  Defining empty dataframe and column names for storing the extracted review data
+    # Defining an empty dataframe and column names for storing the extracted review data
     review_df = pd.DataFrame()
     columns1 = ['locationId', 'ReviewerName', 'StarRating', 'ReviewCreateTime', 'ReviewerComments']
     
@@ -78,7 +78,7 @@ def main (argv):
         # GMB API Call - Method:accounts.locations.batchGetReviews 
         revlist = service.accounts().locations().batchGetReviews(name=gmbAccount,body=body).execute()
         
-        # extracting only the necessary information from the response message
+        # extracting necessary information from the response message
         for j in revlist['locationReviews']:
             locationId = j['name']
             ReviewerName = j['review']['reviewer']['displayName']
@@ -91,8 +91,6 @@ def main (argv):
 
     # Appending all location data and review data into single dataframe
     review_df.columns = columns1
-
-    # Merging location and review dataframes into a single dataframe
     combined = pd.merge(loc_df, review_df, on='locationId')
     combined.to_csv('temp/allmerged.csv', index=False)
     #print(pd.merge(loc_df, review_df, on='locationId'))
