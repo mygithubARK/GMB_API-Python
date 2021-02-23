@@ -1,0 +1,12 @@
+Please make sure the following python moduels and google client libraries are installed before running the scrips
+
+--Google Client Library Installation---
+
+pip install --upgrade google-api-python-client
+pip install --upgrade google-cloud-bigquery
+pip install oauth2client
+
+--Other Python Modules--
+pip install pandas
+
+
